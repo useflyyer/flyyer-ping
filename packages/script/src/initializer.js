@@ -1,4 +1,4 @@
-(function (
+var initializer = function (
   window,
   version,
   endpointProtocol,
@@ -26,12 +26,12 @@
     var con = window.console;
     var nav = window.navigator;
     var loc = window.location;
-    var locationHostname = loc.hostname;
+    var locationHostname = loc && loc.hostname;
     var doc = window.document;
-    var userAgent = nav.userAgent;
+    var userAgent = nav && nav.userAgent;
     var encodeURIComponentFunc = encodeURIComponent;
     var decodeURIComponentFunc = decodeURIComponent;
-    var addEventListenerFunc = window.addEventListener;
+    // var addEventListenerFunc = window.addEventListener;
     // var documentElement = doc.documentElement || {};
 
     var timezone;
@@ -45,14 +45,6 @@
       if (con && con.warn) con.warn("FlayyerPing:", message);
     };
 
-    // Disable on development
-    if (
-      locationHostname.indexOf(".") === -1 ||
-      /^[0-9]+$/.test(locationHostname.replace(/\./g, ""))
-    ) {
-      return warn("Will not ping from " + locationHostname);
-    }
-
     var isBotAgent =
       /(bot|spider|crawl)/i.test(userAgent) && !/(cubot)/i.test(userAgent);
     var bot =
@@ -64,10 +56,10 @@
       isBotAgent;
 
     // Find the script element where options can be set on
-    var scriptElement = doc.querySelector('script[src*="' + baseUrl + '"]');
-    var attr = function (scriptElement, attribute) {
-      return scriptElement && scriptElement.getAttribute("data-" + attribute);
-    };
+    // var scriptElement = doc.querySelector('script[src*="' + baseUrl + '"]');
+    // var attr = function (scriptElement, attribute) {
+    //   return scriptElement && scriptElement.getAttribute("data-" + attribute);
+    // };
 
     var getParams = function (regex) {
       var matches = loc.search.match(
@@ -136,7 +128,8 @@
     };
 
     // Allow override
-    var definedHostname = attr(scriptElement, "hostname") || locationHostname;
+    // var definedHostname = attr(scriptElement, "hostname") || locationHostname;
+    var definedHostname = locationHostname;
 
     // We don't want to end up with sensitive data so we clean the referrer URL
     var referrer =
@@ -264,22 +257,30 @@
       sendPageView(isPushState, isPushState || userNavigated, sameSite);
     };
 
-    // Execute on page load
-    addEventListenerFunc("load", function () {
+    var ping = {};
+    ping.e = function (event) {
+      if (event.filename && event.filename.indexOf(endpointBase) > -1) {
+        sendError(event.message);
+      }
+    };
+    ping.init = function () {
+      // Disable on development
+      if (
+        locationHostname.indexOf(".") === -1 ||
+        /^[0-9]+$/.test(locationHostname.replace(/\./g, ""))
+      ) {
+        return warn("Will not ping from " + locationHostname);
+      }
       pageview(0); // 1 is for SPAs
-    });
-
-    addEventListenerFunc(
-      errorText,
-      function (event) {
-        if (event.filename && event.filename.indexOf(endpointBase) > -1) {
-          sendError(event.message);
-        }
-      },
-      false
-    );
+    };
+    return ping;
   } catch (e) {
-    sendError(e);
     warn(e);
+    if (sendError) {
+      sendError(e);
+    }
   }
-})(window, "1", "https", "ping.", "flayyer.host", "/v1/ping.gif");
+};
+
+// eslint-disable-next-line no-undef
+module.exports = initializer;
