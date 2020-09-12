@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-undef
 module.exports = {
-  parserOptions: {
-    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
-  },
+  // parserOptions: {
+  //   ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
+  //   sourceType: "module", // Allows for the use of imports
+  // },
   env: {
-    "jest/globals": true,
+    // "jest/globals": true,
     browser: true,
     // node: true, // to allow "module.exports"
   },

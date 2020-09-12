@@ -1,0 +1,37 @@
+{
+  "name": "@flayyer/ping",
+  "version": "0.0.0",
+  "description": "Monitor and pre-render Flayyer URLs",
+  "main": "dist/index.js",
+  "author": "patricio@flayyer.com",
+  "license": "MIT",
+  "private": false,
+  "files": ["dist"],
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "uglify": "uglifyjs --config-file minify.config.json --output dist/index.js -- src/index.js",
+    "lint": "eslint '*/**/*.{js,ts,tsx}'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.13",
+    "prettier": "^2.1.0",
+    "uglify-js": "^3.10.4",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
