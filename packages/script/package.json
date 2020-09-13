@@ -1,6 +1,6 @@
 {
   "name": "@flayyer/ping-script",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Monitor and pre-render Flayyer URLs - Browser script",
   "main": "dist/index.js",
   "sideEffects": true,
@@ -28,18 +28,18 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@flayyer/ping": "*"
+    "@flayyer/ping": "^0.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
-    "rollup-plugin-filesize": "^9.0.0",
-    "rollup-plugin-terser": "^7.0.2",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.0",
     "rollup": "^2.26.11",
+    "rollup-plugin-filesize": "^9.0.0",
+    "rollup-plugin-terser": "^7.0.2",
     "webpack": "^5.0.0-beta.30",
     "webpack-cli": "^3.3.12"
   }

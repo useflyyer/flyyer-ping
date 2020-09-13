@@ -1,6 +1,6 @@
 {
   "name": "@flayyer/ping-react-hook",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Monitor and pre-render Flayyer URLs - React component and hook",
   "main": "dist/index.js",
   "module": "esm/index.js",
@@ -17,7 +17,14 @@
     "dist/",
     "esm/"
   ],
-  "keywords": ["flayyer", "og:image", "analytics", "react", "react-hooks", "typescript"],
+  "keywords": [
+    "flayyer",
+    "og:image",
+    "analytics",
+    "react",
+    "react-hooks",
+    "typescript"
+  ],
   "scripts": {
     "build:cjs": "tsc",
     "build:es": "tsc -m esNext --outDir esm",
@@ -25,7 +32,7 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}'"
   },
   "dependencies": {
-    "@flayyer/ping": "*"
+    "@flayyer/ping": "^0.1.0"
   },
   "peerDependencies": {
     "react": "^16.8.0",
