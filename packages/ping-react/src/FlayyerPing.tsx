@@ -16,8 +16,8 @@ export default class FlayyerPing extends Component {
   componentWillUnmount() {
     if (this.ping) {
       const ping = this.ping;
-      window.addEventListener("load", ping.init, false);
-      window.addEventListener("error", ping.e, false);
+      window.removeEventListener("load", ping.init, false);
+      window.removeEventListener("error", ping.e, false);
     }
   }
 
