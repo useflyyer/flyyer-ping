@@ -1,4 +1,4 @@
-# @flayyer/script
+# @flayyer/ping-script
 
 Monitor and pre-render Flayyer URLs - Browser script
 
