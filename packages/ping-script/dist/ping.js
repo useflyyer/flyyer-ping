@@ -129,7 +129,6 @@
       };
       var sendData = function (data, callback) {
         data = assign(payload, data);
-        console.log("will send:", data);
         var image = new Image();
         if (callback) {
           image.onerror = callback;

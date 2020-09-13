@@ -1,6 +1,7 @@
 {
   "name": "root",
   "private": true,
+  "author": "patricio@flayyer.com",
   "scripts": {
     "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
