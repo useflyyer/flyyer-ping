@@ -1,6 +1,6 @@
 {
   "name": "@flayyer/ping",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Monitor and pre-render Flayyer URLs - Base browser logic",
   "main": "src/index.js",
   "types": "types/index.d.ts",

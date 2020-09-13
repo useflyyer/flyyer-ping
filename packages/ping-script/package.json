@@ -1,6 +1,6 @@
 {
   "name": "@flayyer/ping-script",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Monitor and pre-render Flayyer URLs - Browser script",
   "main": "dist/ping.min.js",
   "sideEffects": true,
@@ -33,7 +33,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@flayyer/ping": "^0.2.0"
+    "@flayyer/ping": "^0.3.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
