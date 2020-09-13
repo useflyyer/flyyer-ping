@@ -4,6 +4,8 @@ Monitor and pre-render Flayyer URLs - CommonJS compatible module
 
 ## Install
 
+This module supports TypeScript and JavaScript.
+
 ```sh
 npm install --save @flayyer/ping-module
 
