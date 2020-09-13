@@ -1,7 +1,7 @@
 {
   "name": "@flayyer/ping-script",
   "version": "0.0.0",
-  "description": "Monitor and pre-render Flayyer URLs",
+  "description": "Monitor and pre-render Flayyer URLs - Browser script",
   "main": "dist/index.js",
   "sideEffects": true,
   "author": "patricio@flayyer.com",
