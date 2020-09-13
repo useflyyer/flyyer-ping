@@ -2,6 +2,7 @@
 declare interface Ping {
   e(event: any): void
   init(): void
+  flayyers(): string[]
 }
 
 /**
