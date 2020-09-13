@@ -1,5 +1,5 @@
 {
-  "name": "@flayyer/ping-react-hook",
+  "name": "@flayyer/ping-react",
   "version": "0.1.0",
   "description": "Monitor and pre-render Flayyer URLs - React component and hook",
   "main": "dist/index.js",
