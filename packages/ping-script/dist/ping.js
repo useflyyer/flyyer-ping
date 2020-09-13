@@ -1,7 +1,6 @@
 (function () {
 
   var init = function (window) {
-    if (!window) return;
     try {
       var version = 1;
       var endpointProtocol = "https";
@@ -32,6 +31,11 @@
         timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       } catch (e) {
       }
+      var f = false;
+      var load = "load";
+      var pushState = "pushState";
+      var popstate = "popstate";
+      var dis = window.dispatchEvent;
       var warn = function (message) {
         if (con && con.warn) con.warn("FlayyerPing:", message);
       };
@@ -54,20 +58,6 @@
             })
           : [];
         if (match && match[0]) return match[0];
-      };
-      var qs = function (data) {
-        return Object.keys(data)
-          .filter(function (key) {
-            return data[key] !== undefinedVar && data[key] !== nullVar;
-          })
-          .map(function (key) {
-            return (
-              encodeURIComponentFunc(key) +
-              "=" +
-              encodeURIComponentFunc(data[key])
-            );
-          })
-          .join("&");
       };
       var uuid = function () {
         var cryptoObject = window.crypto || window.msCrypto;
@@ -123,9 +113,9 @@
       var lastPageId = uuid();
       var lastSendPath;
       var payload = {
-        version: version,
+        v: version,
         bot: bot,
-        hostname: definedHostname,
+        host: definedHostname,
       };
       var sendData = function (data, callback) {
         data = assign(payload, data);
@@ -134,7 +124,22 @@
           image.onerror = callback;
           image.onload = callback;
         }
-        image.src = fullApiUrl + endpointPath + "?" + qs(data);
+        image.src =
+          fullApiUrl +
+          endpointPath +
+          "?" +
+          Object.keys(data)
+            .filter(function (key) {
+              return data[key] !== undefinedVar && data[key] !== nullVar;
+            })
+            .map(function (key) {
+              return (
+                encodeURIComponentFunc(key) +
+                "=" +
+                encodeURIComponentFunc(data[key])
+              );
+            })
+            .join("&");
       };
       var sendError = function (errorOrMessage) {
         errorOrMessage = errorOrMessage.message || errorOrMessage;
@@ -176,18 +181,20 @@
               }
             : source,
           {
-            https: loc.protocol === https,
-            timezone: timezone,
+            ssl: loc.protocol === https,
+            tz: timezone,
             type: pageviewsText,
           }
         );
         sendData(data);
         referrer = currentPage;
       };
-      var pageview = function (isPushState, pathOverwrite) {
+      var pageview = function (ev) {
+        var type = ev && ev.type;
+        var isPushState = type === pushState || type === popstate ? 1 : 0;
         var flayyerURLs = flayyers();
         if (!flayyerURLs.length) return;
-        var path = getPath(pathOverwrite);
+        var path = getPath();
         if (!path || lastSendPath === path) return;
         lastSendPath = path;
         var data = {
@@ -213,27 +220,55 @@
               [1, 2].indexOf(perf[navigation].type) > -1;
         var sameSite = referrer
           ? referrer.split(slash)[0] === definedHostname
-          : false;
-        data.unique = isPushState || userNavigated ? false : !sameSite;
+          : f;
+        data.uniq = isPushState || userNavigated ? f : !sameSite;
         page = data;
         sendPageView(isPushState, isPushState || userNavigated, sameSite);
       };
-      var ping = {};
-      ping.e = function (event) {
+      var his = window.history;
+      var hisPushState = his ? his.pushState : undefinedVar;
+      if (hisPushState && Event && dis) {
+        var stateListener = function (type) {
+          var orig = his[type];
+          return function () {
+            var arg = arguments;
+            var rv = orig.apply(this, arg);
+            var event;
+            if (typeof Event === "function") {
+              event = new Event(type);
+            } else {
+              event = doc.createEvent("Event");
+              event.initEvent(type, true, true);
+            }
+            event.arguments = arg;
+            dis(event);
+            return rv;
+          };
+        };
+        his.pushState = stateListener(pushState);
+      }
+      var addEventListenerFunc = window.addEventListener;
+      var removeEventListenerFunc = window.removeEventListener;
+      var onError = function (event) {
         if (event.filename && event.filename.indexOf(endpointBase) > -1) {
           sendError(event.message);
         }
       };
-      ping.init = function () {
-        if (
-          locationHostname.indexOf(".") === -1 ||
-          /^[0-9]+$/.test(locationHostname.replace(/\./g, ""))
-        ) {
-          return warn("Will not ping from " + locationHostname);
-        }
-        pageview(0);
+      var ping = {};
+      ping.go = function () {
+        addEventListenerFunc(load, pageview, f);
+        addEventListenerFunc(pushState, pageview, f);
+        addEventListenerFunc(popstate, pageview, f);
+        addEventListenerFunc(errorText, onError, f);
       };
-      ping.flayyers = flayyers;
+      ping.no = function () {
+        removeEventListenerFunc(load, pageview, f);
+        removeEventListenerFunc(pushState, pageview, f);
+        removeEventListenerFunc(popstate, pageview, f);
+        removeEventListenerFunc(errorText, onError, f);
+      };
+      ping.ping = pageview;
+      ping.urls = flayyers;
       return ping;
     } catch (e) {
       warn(e);
@@ -244,13 +279,10 @@
   };
   var src = init;
 
-  if (window) {
-    var addEventListenerFunc = window.addEventListener;
+  if (typeof window !== "undefined") {
     var ping = src(window);
     if (ping) {
-      var f = false;
-      addEventListenerFunc("load", ping.init, f);
-      addEventListenerFunc("error", ping.e, f);
+      ping.go();
     }
   }
 

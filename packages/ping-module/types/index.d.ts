@@ -1,7 +1,9 @@
+import { FlayyerPing } from "@flayyer/ping";
+
 /**
- * Add event listeners to work with Flayyer Ping.
+ * Init Flayyer Ping object with methods to start and stop.
  * This script only works on browser environments.
  */
-declare function ping(): void;
+declare function init(): FlayyerPing | undefined;
 
-export default ping;
+export default init;

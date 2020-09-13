@@ -41,12 +41,30 @@ If you are using [Next.js](https://nextjs.org/) you probably want to add this ho
 ```js
 // /pages/_app.js
 
+import Head from "next/head";
+import Flayyer from "@flayyer/flayyer";
 import { useFlayyerPing } from "@flayyer/ping-react";
+
+const flayyer = new Flayyer({
+  tenant: "tenant",
+  deck: "deck",
+  template: "template",
+  variables: {
+    title: "Hello world!",
+  },
+});
 
 function MyApp({ Component, pageProps }) {
   useFlayyerPing();
 
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Head>
+        <meta property="og:image" content={url} />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default MyApp

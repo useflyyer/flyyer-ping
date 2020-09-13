@@ -1,5 +1,4 @@
 var init = function (window) {
-  if (!window) return;
   try {
     var version = 1;
     var endpointProtocol = "https";
@@ -41,6 +40,13 @@ var init = function (window) {
       /* Do nothing */
     }
 
+    var f = false;
+    var load = "load";
+    var pushState = "pushState";
+    var popstate = "popstate";
+
+    var dis = window.dispatchEvent;
+
     var warn = function (message) {
       if (con && con.warn) con.warn("FlayyerPing:", message);
     };
@@ -71,21 +77,6 @@ var init = function (window) {
           })
         : [];
       if (match && match[0]) return match[0];
-    };
-
-    var qs = function (data) {
-      return Object.keys(data)
-        .filter(function (key) {
-          return data[key] !== undefinedVar && data[key] !== nullVar;
-        })
-        .map(function (key) {
-          return (
-            encodeURIComponentFunc(key) +
-            "=" +
-            encodeURIComponentFunc(data[key])
-          );
-        })
-        .join("&");
     };
 
     var uuid = function () {
@@ -154,9 +145,9 @@ var init = function (window) {
     var lastSendPath;
 
     var payload = {
-      version: version,
+      v: version,
       bot: bot,
-      hostname: definedHostname,
+      host: definedHostname,
     };
 
     // Send data via image
@@ -167,7 +158,22 @@ var init = function (window) {
         image.onerror = callback;
         image.onload = callback;
       }
-      image.src = fullApiUrl + endpointPath + "?" + qs(data);
+      image.src =
+        fullApiUrl +
+        endpointPath +
+        "?" +
+        Object.keys(data)
+          .filter(function (key) {
+            return data[key] !== undefinedVar && data[key] !== nullVar;
+          })
+          .map(function (key) {
+            return (
+              encodeURIComponentFunc(key) +
+              "=" +
+              encodeURIComponentFunc(data[key])
+            );
+          })
+          .join("&");
     };
 
     var sendError = function (errorOrMessage) {
@@ -216,8 +222,8 @@ var init = function (window) {
             }
           : source,
         {
-          https: loc.protocol === https,
-          timezone: timezone,
+          ssl: loc.protocol === https,
+          tz: timezone,
           type: pageviewsText,
         }
       );
@@ -225,13 +231,16 @@ var init = function (window) {
       referrer = currentPage;
     };
 
-    var pageview = function (isPushState, pathOverwrite) {
+    var pageview = function (ev) {
+      var type = ev && ev.type;
+      var isPushState = type === pushState || type === popstate ? 1 : 0;
+
       // Do not execute if document is not using Flayyer
       var flayyerURLs = flayyers();
       if (!flayyerURLs.length) return;
 
       // Obfuscate personal data in URL by dropping the search and hash
-      var path = getPath(pathOverwrite);
+      var path = getPath();
 
       // Don't send the last path again (this could happen when pushState is used to change the path hash or search)
       if (!path || lastSendPath === path) return;
@@ -274,10 +283,10 @@ var init = function (window) {
       // Check if referrer is the same as current hostname
       var sameSite = referrer
         ? referrer.split(slash)[0] === definedHostname
-        : false;
+        : f;
 
       // We set unique variable based on pushstate or back navigation, if no match we check the referrer
-      data.unique = isPushState || userNavigated ? false : !sameSite;
+      data.uniq = isPushState || userNavigated ? f : !sameSite;
       // IMPORTANT: If true, the user came from outside the page and we should track it
 
       page = data;
@@ -285,23 +294,60 @@ var init = function (window) {
       sendPageView(isPushState, isPushState || userNavigated, sameSite);
     };
 
-    var ping = {};
-    ping.e = function (event) {
+    // For SPAs
+    var his = window.history;
+    var hisPushState = his ? his.pushState : undefinedVar;
+
+    // Overwrite history pushState function to
+    // allow listening on the pushState event
+    if (hisPushState && Event && dis) {
+      var stateListener = function (type) {
+        var orig = his[type];
+        return function () {
+          var arg = arguments;
+          var rv = orig.apply(this, arg);
+          var event;
+          if (typeof Event === "function") {
+            event = new Event(type);
+          } else {
+            // Fix for IE
+            event = doc.createEvent("Event");
+            event.initEvent(type, true, true);
+          }
+          event.arguments = arg;
+          dis(event);
+          return rv;
+        };
+      };
+
+      his.pushState = stateListener(pushState);
+    }
+
+    var addEventListenerFunc = window.addEventListener;
+    var removeEventListenerFunc = window.removeEventListener;
+
+    var onError = function (event) {
       if (event.filename && event.filename.indexOf(endpointBase) > -1) {
         sendError(event.message);
       }
     };
-    ping.init = function () {
-      // Disable on development
-      if (
-        locationHostname.indexOf(".") === -1 ||
-        /^[0-9]+$/.test(locationHostname.replace(/\./g, ""))
-      ) {
-        return warn("Will not ping from " + locationHostname);
-      }
-      pageview(0); // 1 is for SPAs
+
+    var ping = {};
+    ping.go = function () {
+      addEventListenerFunc(load, pageview, f);
+      addEventListenerFunc(pushState, pageview, f);
+      addEventListenerFunc(popstate, pageview, f);
+      addEventListenerFunc(errorText, onError, f);
     };
-    ping.flayyers = flayyers;
+    ping.no = function () {
+      removeEventListenerFunc(load, pageview, f);
+      removeEventListenerFunc(pushState, pageview, f);
+      removeEventListenerFunc(popstate, pageview, f);
+      removeEventListenerFunc(errorText, onError, f);
+      // TODO: should undo override of history pushState?
+    };
+    ping.ping = pageview;
+    ping.urls = flayyers;
     return ping;
   } catch (e) {
     warn(e);
