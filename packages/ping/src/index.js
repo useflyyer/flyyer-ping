@@ -1,18 +1,11 @@
-var init = function (
-  window,
-  version,
-  endpointProtocol,
-  endpointSubdomain,
-  endpointBase,
-  endpointPath
-) {
+var init = function (window) {
   if (!window) return;
   try {
-    version = version || 1;
-    endpointProtocol = endpointProtocol || "https";
-    endpointSubdomain = endpointSubdomain || "ping.";
-    endpointBase = endpointBase || "flayyer.host";
-    endpointPath = endpointPath || "/v1/ping.gif";
+    var version = 2;
+    var endpointProtocol = "https";
+    var endpointSubdomain = "ping.";
+    var endpointBase = "flayyer.host";
+    var endpointPath = "/v1/ping.gif";
 
     var slash = "/";
     var https = "https:";
@@ -188,6 +181,23 @@ var init = function (
       });
     };
 
+    var flayyers = function () {
+      var urls = [];
+      // meta[property^="og:image"][content*="flayyer.host"], meta[name^="twitter:image"][content*="flayyer.host"]
+      var metaimageElements = doc.querySelectorAll(
+        'meta[property^="og:image"][content*="' +
+          endpointBase +
+          '"], meta[name^="twitter:image"][content*="' +
+          endpointBase +
+          '"]'
+      );
+      metaimageElements.forEach(function (node) {
+        var content = node.content.split(endpointBase)[1];
+        urls.indexOf(content) > -1 || urls.push(content);
+      });
+      return urls;
+    };
+
     var getPath = function (overwrite) {
       var path = overwrite || decodeURIComponentFunc(loc.pathname);
       return path;
@@ -217,6 +227,10 @@ var init = function (
     };
 
     var pageview = function (isPushState, pathOverwrite) {
+      // Do not execute if document is not using Flayyer
+      var flayyerURLs = flayyers();
+      if (!flayyerURLs.length) return;
+
       // Obfuscate personal data in URL by dropping the search and hash
       var path = getPath(pathOverwrite);
 
@@ -228,6 +242,14 @@ var init = function (
       var data = {
         path: path,
       };
+      for (var fi = 0; fi < flayyerURLs.length; fi++) {
+        data["f" + fi] = flayyerURLs[fi];
+      }
+      // TODO: does this produce a lighter min.js?
+      // if (flayyerURLs[0]) data.f0 = flayyerURLs[0];
+      // if (flayyerURLs[1]) data.f1 = flayyerURLs[1];
+      // if (flayyerURLs[2]) data.f2 = flayyerURLs[2];
+      // if (flayyerURLs[3]) data.f3 = flayyerURLs[4];
 
       if (nav[language]) data[language] = nav[language];
 
@@ -280,6 +302,7 @@ var init = function (
       }
       pageview(0); // 1 is for SPAs
     };
+    ping.flayyers = flayyers;
     return ping;
   } catch (e) {
     warn(e);
