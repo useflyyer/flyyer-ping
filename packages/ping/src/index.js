@@ -1,11 +1,11 @@
 var init = function (window) {
   if (!window) return;
   try {
-    var version = 2;
+    var version = 1;
     var endpointProtocol = "https";
     var endpointSubdomain = "ping.";
     var endpointBase = "flayyer.host";
-    var endpointPath = "/v1/ping.gif";
+    var endpointPath = "/v2/ping.gif";
 
     var slash = "/";
     var https = "https:";
@@ -162,7 +162,6 @@ var init = function (window) {
     // Send data via image
     var sendData = function (data, callback) {
       data = assign(payload, data);
-      console.log("will send:", data); // TODO: remove
       var image = new Image();
       if (callback) {
         image.onerror = callback;
