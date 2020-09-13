@@ -14,7 +14,7 @@
   ],
   "keywords": ["flayyer", "og:image", "analytics", "vanilla"],
   "scripts": {
-    "lint": "eslint '*/**/*.{js,ts,tsx}'"
+    "lint": "eslint ."
   },
   "devDependencies": {
     "eslint": "^7.7.0",
