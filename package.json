@@ -1,7 +1,12 @@
 {
   "name": "root",
   "private": true,
-  "author": "patricio@flayyer.com",
+  "author": "Patricio López Juri <patricio@flayyer.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flayyer/flayyer-js.git"
+  },
+  "homepage": "https://flayyer.com",
   "scripts": {
     "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
