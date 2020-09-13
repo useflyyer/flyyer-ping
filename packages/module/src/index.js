@@ -1,6 +1,6 @@
 var init = require("@flayyer/ping");
 
-(function (window) {
+var ping = function () {
   if (!window) return;
 
   var addEventListenerFunc = window.addEventListener;
@@ -11,4 +11,6 @@ var init = require("@flayyer/ping");
     addEventListenerFunc("load", ping.init, f);
     addEventListenerFunc("error", ping.e, f);
   }
-})(window);
+};
+
+module.exports = ping;

@@ -1,4 +1,4 @@
-var initializer = function (
+var init = function (
   window,
   version,
   endpointProtocol,
@@ -8,11 +8,18 @@ var initializer = function (
 ) {
   if (!window) return;
   try {
+    version = version || 1;
+    endpointProtocol = endpointProtocol || "https";
+    endpointSubdomain = endpointSubdomain || "ping.";
+    endpointBase = endpointBase || "flayyer.host";
+    endpointPath = endpointPath || "/v1/ping.gif";
+
+    var slash = "/";
     var https = "https:";
+    var language = "language";
+
     var errorText = "error";
     var pageviewsText = "pageview";
-    var language = "language";
-    var slash = "/";
 
     var baseUrl = endpointBase;
     var protocol = endpointProtocol + "://"; // "https://"
@@ -76,7 +83,7 @@ var initializer = function (
     var qs = function (data) {
       return Object.keys(data)
         .filter(function (key) {
-          return data[key] !== undefinedVar || data[key] !== nullVar;
+          return data[key] !== undefinedVar && data[key] !== nullVar;
         })
         .map(function (key) {
           return (
@@ -168,7 +175,7 @@ var initializer = function (
         image.onerror = callback;
         image.onload = callback;
       }
-      image.src = fullApiUrl + endpointPath + qs(data);
+      image.src = fullApiUrl + endpointPath + "?" + qs(data);
     };
 
     var sendError = function (errorOrMessage) {
@@ -282,5 +289,4 @@ var initializer = function (
   }
 };
 
-// eslint-disable-next-line no-undef
-module.exports = initializer;
+module.exports = init;

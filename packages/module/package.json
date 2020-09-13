@@ -1,18 +1,19 @@
 {
-  "name": "@flayyer/ping-script",
+  "name": "@flayyer/ping-module",
   "version": "0.0.0",
-  "description": "Monitor and pre-render Flayyer URLs",
-  "main": "dist/index.js",
-  "sideEffects": true,
+  "description": "Monitor and pre-render Flayyer URLs - CommonJS compatible module",
+  "main": "src/index.js",
+  "types": "types/index.d.ts",
+  "sideEffects": false,
   "author": "patricio@flayyer.com",
   "license": "MIT",
   "private": false,
   "files": [
-    "dist"
+    "src",
+    "types"
   ],
-  "keywords": ["flayyer", "og:image", "analytics", "browser", "IIFE"],
+  "keywords": ["flayyer", "og:image", "analytics"],
   "scripts": {
-    "build": "webpack --config webpack.config.js",
     "lint": "eslint '*/**/*.{js,ts,tsx}'"
   },
   "dependencies": {
@@ -22,8 +23,6 @@
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.1.0",
-    "webpack": "^5.0.0-beta.30",
-    "webpack-cli": "^3.3.12"
+    "prettier": "^2.1.0"
   }
 }

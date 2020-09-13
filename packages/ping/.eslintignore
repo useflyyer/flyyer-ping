@@ -1,5 +1,4 @@
 !.eslintrc.js
-!webpack.config.js
 
 .vscode
 dist
