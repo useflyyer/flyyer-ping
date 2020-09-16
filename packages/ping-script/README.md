@@ -13,7 +13,7 @@ Add this script inside and at the end of the `<body>` tag:
 ```html
 <script async defer src="https://unpkg.com/@flayyer/ping-script/dist/ping.min.js"></script>
 <noscript>
-  <img src="https://ping.flayyer.host/v2/ping.gif" alt=""/>
+  <img src="https://edge.flayyer.host/v2/ping.gif" alt=""/>
 </noscript>
 ```
 
@@ -31,7 +31,7 @@ So a fully-featured but also minimalist site using Flayyer should look like this
   ...
   <script async defer src="https://unpkg.com/@flayyer/ping-script/dist/ping.min.js"></script>
   <noscript>
-    <img src="https://ping.flayyer.host/v2/ping.gif" alt=""/>
+    <img src="https://edge.flayyer.host/v2/ping.gif" alt=""/>
   </noscript>
 </body>
 </html>
@@ -43,8 +43,6 @@ By using this script we are able to pre-render the image at `https://flayyer.hos
 
 While `https://unpkg.com/@flayyer/ping-script/dist/ping.min.js` is going to grab the latest version of this script, you can opt to use a specific version using the syntax described in https://unpkg.com/
 
-
-
 ## Size
 
 We care about performance and we don´t want to impact the loading speed of your website. This script has the following filesize and we are continuously working to add more features while reducing the size as much as possible.
@@ -55,7 +53,7 @@ We care about performance and we don´t want to impact the loading speed of your
 │   Destination: dist/ping.js   │
 │   Bundle Size:  9.21 KB       │
 │   Minified Size:  3.2 KB      │
-│   Gzipped Size:  1.63 KB      │
+│   Gzipped Size:  1.64 KB      │
 │                               │
 └───────────────────────────────┘
 ┌───────────────────────────────────┐

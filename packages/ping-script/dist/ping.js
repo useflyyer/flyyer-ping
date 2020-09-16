@@ -4,7 +4,7 @@
     try {
       var version = 1;
       var endpointProtocol = "https";
-      var endpointSubdomain = "ping.";
+      var endpointSubdomain = "edge.";
       var endpointBase = "flayyer.host";
       var endpointPath = "/v2/ping.gif";
       var slash = "/";
