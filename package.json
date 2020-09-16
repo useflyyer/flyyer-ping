@@ -4,7 +4,7 @@
   "author": "Patricio López Juri <patricio@flayyer.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/flayyer/flayyer-js.git"
+    "url": "https://github.com/flayyer/flayyer-ping.git"
   },
   "homepage": "https://flayyer.com",
   "scripts": {
