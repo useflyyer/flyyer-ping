@@ -75,3 +75,20 @@ const url = flayyer.href();
 // Later in your HTML code:
 <meta property="og:image" content={url} />
 ```
+
+## Development
+
+Prepare Lerna environment with:
+
+```sh
+yarn install
+yarn run bootstrap
+yarn run build
+```
+
+To deploy a new version:
+
+```sh
+yarn run version
+yarn run deploy
+```

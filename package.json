@@ -11,6 +11,7 @@
     "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "version": "lerna version",
     "publish": "lerna publish",
     "lint": "lerna run lint"
   },
