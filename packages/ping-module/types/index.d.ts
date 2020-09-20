@@ -1,9 +1,9 @@
-import { FlayyerPing } from "@flayyer/ping";
+import { FlayyerPing, FlayyerPingOptions } from "@flayyer/ping";
 
 /**
  * Init Flayyer Ping object with methods to start and stop.
  * This script only works on browser environments.
  */
-declare function init(): FlayyerPing | undefined;
+declare function init(opts?: FlayyerPingOptions): FlayyerPing | undefined;
 
 export default init;

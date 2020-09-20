@@ -1,7 +1,7 @@
 var init = require("@flayyer/ping");
 
-var ping = function () {
-  if (typeof window !== "undefined") return init(window);
+var ping = function (opts) {
+  if (typeof window !== "undefined") return init(window, opts);
 };
 
 module.exports = ping;

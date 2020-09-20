@@ -51,17 +51,17 @@ We care about performance and we don´t want to impact the loading speed of your
 ┌───────────────────────────────┐
 │                               │
 │   Destination: dist/ping.js   │
-│   Bundle Size:  9.21 KB       │
-│   Minified Size:  3.2 KB      │
-│   Gzipped Size:  1.64 KB      │
+│   Bundle Size:  9.33 KB       │
+│   Minified Size:  3.24 KB     │
+│   Gzipped Size:  1.67 KB      │
 │                               │
 └───────────────────────────────┘
 ┌───────────────────────────────────┐
 │                                   │
 │   Destination: dist/ping.min.js   │
-│   Bundle Size:  3.12 KB           │
-│   Minified Size:  3.12 KB         │
-│   Gzipped Size:  1.65 KB          │
+│   Bundle Size:  3.16 KB           │
+│   Minified Size:  3.16 KB         │
+│   Gzipped Size:  1.68 KB          │
 │                                   │
 └───────────────────────────────────┘
 ```

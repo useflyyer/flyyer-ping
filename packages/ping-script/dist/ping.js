@@ -1,12 +1,14 @@
 (function () {
 
-  var init = function (window) {
+  var init = function (window, opts) {
     try {
+      var opts = opts || {};
       var version = 1;
       var endpointProtocol = "https";
       var endpointSubdomain = "edge.";
       var endpointBase = "flayyer.host";
-      var endpointPath = "/v2/ping.gif";
+      var endpointPath = "/v2/ping";
+      var endpointExt = opts.ext || ".gif";
       var slash = "/";
       var https = "https:";
       var language = "language";
@@ -117,29 +119,29 @@
         bot: bot,
         host: definedHostname,
       };
-      var sendData = function (data, callback) {
+      var sendData = function (data) {
         data = assign(payload, data);
-        var image = new Image();
-        if (callback) {
-          image.onerror = callback;
-          image.onload = callback;
+        var querystring = Object.keys(data)
+          .filter(function (key) {
+            return data[key] !== undefinedVar && data[key] !== nullVar;
+          })
+          .map(function (key) {
+            return (
+              encodeURIComponentFunc(key) +
+              "=" +
+              encodeURIComponentFunc(data[key])
+            );
+          })
+          .join("&");
+        var endpoint =
+          fullApiUrl + endpointPath + endpointExt + "?" + querystring;
+        var _fetch = opts.fetch;
+        if (_fetch) {
+          _fetch(endpoint).catch(function () {});
+        } else {
+          var image = new Image();
+          image.src = endpoint;
         }
-        image.src =
-          fullApiUrl +
-          endpointPath +
-          "?" +
-          Object.keys(data)
-            .filter(function (key) {
-              return data[key] !== undefinedVar && data[key] !== nullVar;
-            })
-            .map(function (key) {
-              return (
-                encodeURIComponentFunc(key) +
-                "=" +
-                encodeURIComponentFunc(data[key])
-              );
-            })
-            .join("&");
       };
       var sendError = function (errorOrMessage) {
         errorOrMessage = errorOrMessage.message || errorOrMessage;

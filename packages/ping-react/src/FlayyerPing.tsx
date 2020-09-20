@@ -1,11 +1,13 @@
 import { Component } from 'react';
-import init, { FlayyerPing as FlayyerPingType } from '@flayyer/ping';
+import init, { FlayyerPing as FlayyerPingType, FlayyerPingOptions } from '@flayyer/ping';
 
-export default class FlayyerPing extends Component {
+export type FlayyerPingProps = FlayyerPingOptions;
+
+export default class FlayyerPing extends Component<FlayyerPingProps> {
   private ping?: FlayyerPingType;
 
   componentDidMount() {
-    const ping = init(window);
+    const ping = init(window, this.props); // TODO: pick props?
     if (ping) {
       this.ping = ping;
       ping.go();
