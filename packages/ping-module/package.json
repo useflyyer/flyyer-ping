@@ -1,6 +1,6 @@
 {
   "name": "@flayyer/ping-module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Monitor and pre-render Flayyer URLs - CommonJS compatible module",
   "main": "src/index.js",
   "types": "types/index.d.ts",
@@ -29,7 +29,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@flayyer/ping": "^1.0.0"
+    "@flayyer/ping": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "^7.7.0",

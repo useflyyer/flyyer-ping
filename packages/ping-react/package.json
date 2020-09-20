@@ -1,6 +1,6 @@
 {
   "name": "@flayyer/ping-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Monitor and pre-render Flayyer URLs - React component and hook",
   "main": "dist/index.js",
   "module": "esm/index.js",
@@ -37,7 +37,7 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}'"
   },
   "dependencies": {
-    "@flayyer/ping": "^1.0.0"
+    "@flayyer/ping": "^1.0.1"
   },
   "peerDependencies": {
     "react": "^16.8.0",
