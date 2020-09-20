@@ -89,6 +89,5 @@ yarn run build
 To deploy a new version:
 
 ```sh
-yarn run version
 yarn run deploy
 ```
