@@ -13,7 +13,7 @@ Add this script inside and at the end of the `<body>` tag:
 ```html
 <script async defer src="https://unpkg.com/@flayyer/ping-script/dist/ping.min.js"></script>
 <noscript>
-  <img src="https://edge.flayyer.host/v2/ping.gif" alt=""/>
+  <img src="https://edge.flayyer.com/v2/ping.gif" alt=""/>
 </noscript>
 ```
 
@@ -31,7 +31,7 @@ So a fully-featured but also minimalist site using Flayyer should look like this
   ...
   <script async defer src="https://unpkg.com/@flayyer/ping-script/dist/ping.min.js"></script>
   <noscript>
-    <img src="https://edge.flayyer.host/v2/ping.gif" alt=""/>
+    <img src="https://edge.flayyer.com/v2/ping.gif" alt=""/>
   </noscript>
 </body>
 </html>

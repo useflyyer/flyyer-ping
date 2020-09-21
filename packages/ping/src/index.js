@@ -4,7 +4,7 @@ var init = function (window, opts) {
     var version = 1;
     var endpointProtocol = "https";
     var endpointSubdomain = "edge.";
-    var endpointBase = "flayyer.host";
+    var endpointBase = "flayyer.com";
     var endpointPath = "/v2/ping";
     var endpointExt = opts.ext || ".gif";
 
