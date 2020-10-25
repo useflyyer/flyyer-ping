@@ -12,6 +12,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "publish": "lerna publish",
+    "test": "lerna run test",
     "lint": "lerna run lint"
   },
   "devDependencies": {
